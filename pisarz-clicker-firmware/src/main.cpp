@@ -7,6 +7,18 @@
 #define SERVO_FREQ 50
 
 //
+// TODO
+//
+
+/*
+Key zawierające wskaźnik do drivera
+Tworzenie Key na podstawie odebranego bajtu (lookup table)
+Pętal updatowania eventów
+Obsługa znaków wielokliknięciowych - duże litery, polskie znaki
+*/
+
+
+//
 // Drivers objects
 //
 
