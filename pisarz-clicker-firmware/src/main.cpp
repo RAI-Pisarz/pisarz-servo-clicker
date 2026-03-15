@@ -38,7 +38,7 @@ typedef enum{
 } servoDir;
 
 typedef struct{
-    Adafruit_PWMServoDriver *driver;
+    const Adafruit_PWMServoDriver *driver;
     uint8_t channel;
     servoDir dir;
 } Key;
@@ -59,7 +59,7 @@ typedef struct{
 } ClickEvent;
 
 
-ClickEvent clickEventTab[100];
+ClickEvent clickEventTab[50];
 uint8_t clickEventTabLen = 0;
 
 //
@@ -142,16 +142,17 @@ Key key_create(uint16_t character, uint8_t *returnCode){
 
     // Lookup table must be inserted here instead of line of if statements
     if(character == 'a'){
-        key.driver = &servoDriver;
+        //key.driver = &servoDriver;
         //key.channel = servoChannelLUT['a'-33];
         key.dir = LEFT;
     }
     else if(character == 'b'){
-        key.driver = &servoDriver;
+        //key.driver = &servoDriver;
         //key.channel = servoChannelLUT['b'-33];
         key.dir = LEFT;
     }
 
+    key.driver = getServoDriverFromLUT(character, returnCode);
     key.channel = getServoChannelFromLUT(character, returnCode);
 
     return key;
