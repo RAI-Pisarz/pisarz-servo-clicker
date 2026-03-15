@@ -2,9 +2,12 @@
 #define LUT_H
 
 #include <stdint.h>
+#include <Adafruit_PWMServoDriver.h>
 
-extern uint8_t servoChannelLUT[256];
+extern Adafruit_PWMServoDriver servoDriver;
 
-void servoChannelLUTInit();
+extern const uint8_t servoChannelLUT[96];
+extern const Adafruit_PWMServoDriver *servoDriverLUT[96];
+
 
 #endif

@@ -90,9 +90,6 @@ void setup() {
     servoDriver.setOscillatorFrequency(27000000);
     servoDriver.setPWMFreq(SERVO_FREQ);
 
-    //LUTs init
-    servoChannelLUTInit();
-
     delay(10);
 }
 
@@ -146,12 +143,12 @@ Key key_create(uint16_t character, uint8_t *returnCode){
     // Lookup table must be inserted here instead of line of if statements
     if(character == 'a'){
         key.driver = &servoDriver;
-        key.channel = servoChannelLUT['a'];
+        key.channel = servoChannelLUT['a'-33];
         key.dir = LEFT;
     }
     else if(character == 'b'){
         key.driver = &servoDriver;
-        key.channel = servoChannelLUT['b'];
+        key.channel = servoChannelLUT['b'-33];
         key.dir = LEFT;
     }
     else
