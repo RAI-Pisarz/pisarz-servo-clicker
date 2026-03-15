@@ -2,7 +2,8 @@
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
-#include "lut.h"
+#include "key.h"
+#include "clickEvent.h"
 
 #define SERVOMIN  120
 #define SERVOMAX  520
@@ -32,33 +33,6 @@ Adafruit_PWMServoDriver servoDriver = Adafruit_PWMServoDriver();
 // Data types
 //
 
-typedef enum{
-    LEFT,
-    RIGHT
-} servoDir;
-
-typedef struct{
-    const Adafruit_PWMServoDriver *driver;
-    uint8_t channel;
-    servoDir dir;
-} Key;
-
-typedef enum{
-    EMPTY,
-    CREATED,
-    CLICKING,
-    RETURNING,
-    DONE
-} clickEventState;
-
-typedef struct{
-    Key key;
-    unsigned long bornTime;
-    clickEventState state;
-
-} ClickEvent;
-
-
 ClickEvent clickEventTab[50];
 uint8_t clickEventTabLen = 0;
 
@@ -68,11 +42,6 @@ uint8_t clickEventTabLen = 0;
 
 void receiveData();
 void updateEvents();
-
-ClickEvent clickEvent_create(uint16_t key, unsigned long time, uint8_t *returnCode);
-void clickEvent_update(ClickEvent *event, unsigned long time);
-
-Key key_create(uint16_t character, uint8_t *returnCode);
 
 void servoDown(Key key);
 void servoUp(Key key);
@@ -103,10 +72,10 @@ void loop() {
     // delay(1000);
 
     receiveData();
-    for(int i=0; i<5; i++)
+    for(int i=0; i<10; i++)
         Serial.print(clickEventTab[i].key.channel);
     Serial.println();
-    delay(500);
+    delay(200);
 }
 
 void receiveData(){
@@ -125,35 +94,3 @@ void receiveData(){
     }
 }
 
-ClickEvent clickEvent_create(uint16_t character, unsigned long time, uint8_t *returnCode){
-    Key key = key_create(character, returnCode);
-
-    ClickEvent event;
-    event.key = key;
-    event.bornTime = time;
-    event.state = CREATED;
-
-    return event;
-}
-
-Key key_create(uint16_t character, uint8_t *returnCode){
-    Key key;
-    *returnCode = 0;
-
-    // Lookup table must be inserted here instead of line of if statements
-    if(character == 'a'){
-        //key.driver = &servoDriver;
-        //key.channel = servoChannelLUT['a'-33];
-        key.dir = LEFT;
-    }
-    else if(character == 'b'){
-        //key.driver = &servoDriver;
-        //key.channel = servoChannelLUT['b'-33];
-        key.dir = LEFT;
-    }
-
-    key.driver = getServoDriverFromLUT(character, returnCode);
-    key.channel = getServoChannelFromLUT(character, returnCode);
-
-    return key;
-}
