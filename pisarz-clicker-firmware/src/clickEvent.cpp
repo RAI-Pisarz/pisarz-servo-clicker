@@ -37,7 +37,7 @@ void clickEvent_update(ClickEvent *event, ClickEvent prevEvent){
     if(event->state == CREATED){
         if(key_checkEqual(event->key, prevEvent.key))
             return; // Break must be inserted here
-        if(prevEvent.state >= DONE || prevEvent.state == EMPTY){
+        if((prevEvent.state >= CLICKING && time - prevEvent.clickingTime >= SERVO_TIME_BEETWEEN_CLICKS) || prevEvent.state == EMPTY){
             servoDown(event->key);
             event->state = CLICKING;
             event->clickingTime = time;
@@ -50,7 +50,7 @@ void clickEvent_update(ClickEvent *event, ClickEvent prevEvent){
         }
     }
     else if(event->state == RETURNING){
-        if(time - event->clickingTime >= SERVO_DONE_TIME){
+        if(time - event->clickingTime >= SERVO_RETURNING_TIME){
             event->state = DONE;
         }
     }
