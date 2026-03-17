@@ -56,6 +56,8 @@ void setup() {
 void loop() {
     receiveData();
     clickEventTab_updateEvents();
+    clickEventTab_showEventTab();
+    clickEventTab_removeDoneEvents();
 }
 
 //

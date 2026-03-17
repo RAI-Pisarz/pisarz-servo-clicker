@@ -10,6 +10,15 @@ void clickEventTab_addEvent(ClickEvent event){
     }
 }
 
+void clickEventTab_removeDoneEvents(){
+    while(clickEventTab[0].state == DONE){
+            for(uint8_t i=0; i < clickEventTabLen-1; i++)
+                clickEventTab[i] = clickEventTab[i+1];
+            clickEventTab[clickEventTabLen-1] = clickEvent_createEmpty();
+            clickEventTabLen--;
+        }
+}
+
 void clickEventTab_updateEvents(){
     ClickEvent prevEvent = clickEvent_createEmpty();
     unsigned long currentTime = millis();
@@ -18,16 +27,6 @@ void clickEventTab_updateEvents(){
             clickEvent_update(&(clickEventTab[i]), prevEvent, currentTime);
             prevEvent = clickEventTab[i];
         }
-    }
-
-    clickEventTab_showEventTab();
-
-    while(clickEventTab[0].state == DONE){
-        for(uint8_t i=0; i < clickEventTabLen-1; i++){ // BUG WAS HERE (clickEventTabLen-2)
-            clickEventTab[i] = clickEventTab[i+1];
-        }
-        clickEventTab[clickEventTabLen-1] = clickEvent_createEmpty();
-        clickEventTabLen--;
     }
 }
 
