@@ -21,23 +21,23 @@ void clickEventTab_removeDoneEvents(){
 
 void clickEventTab_updateEvents(){
     ClickEvent prevEvent = clickEvent_createEmpty();
-    unsigned long currentTime = millis();
     for(uint8_t i=0; i < clickEventTabLen; i++){
         if(clickEventTab[i].state != EMPTY){
-            clickEvent_update(&(clickEventTab[i]), prevEvent, currentTime);
+            clickEvent_update(&(clickEventTab[i]), prevEvent);
             prevEvent = clickEventTab[i];
         }
     }
 }
 
 void clickEventTab_showEventTab(){
-    if(clickEventTabLen){
-        if(clickEventTabLen > 5)
-            clickEventTabLen = 5;
+    uint8_t loops = clickEventTabLen;
+    if(loops){
+        Serial.print("Events: ");
+        Serial.println(loops);
+        if(loops > 5)
+            loops = 5;
         Serial.print("=== === Event Tab === ");
-        Serial.print("events: ");
-        Serial.println(clickEventTabLen);
-        for(int i=0; i < clickEventTabLen; i++){
+        for(int i=0; i < loops; i++){
             Serial.print("Idx: ");
             Serial.print(i);
             Serial.print("   state: ");
