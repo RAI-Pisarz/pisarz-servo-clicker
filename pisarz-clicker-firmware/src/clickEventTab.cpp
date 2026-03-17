@@ -22,7 +22,7 @@ void clickEventTab_updateEvents(){
 
     clickEventTab_showEventTab();
 
-    if(clickEventTab[0].state == DONE){
+    while(clickEventTab[0].state == DONE){
         for(uint8_t i=0; i < clickEventTabLen-1; i++){ // BUG WAS HERE (clickEventTabLen-2)
             clickEventTab[i] = clickEventTab[i+1];
         }
@@ -33,7 +33,9 @@ void clickEventTab_updateEvents(){
 
 void clickEventTab_showEventTab(){
     if(clickEventTabLen){
-        Serial.println("=== === Event Tab === ===");
+        Serial.print("=== === Event Tab === ");
+        Serial.print("events: ");
+        Serial.println(clickEventTabLen);
         for(int i=0; i < clickEventTabLen; i++){
             Serial.print("Idx: ");
             Serial.print(i);
