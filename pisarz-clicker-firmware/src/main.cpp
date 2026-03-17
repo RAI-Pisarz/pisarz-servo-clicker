@@ -17,20 +17,22 @@ Sterowanie serwerm przez sterownik      DONE
 Odbieranie znaków przez UART            DONE
 Tworzenie Key (lookup table)            DONE
 Tworzenie ClickEvent                    DONE
-Update loop eventów
-{
+
+Update loop eventów:
 Kręcenie serwerm z drivera              DONE
 Funkcje servoDown, servoUp              DONE
 Kolejkowanie bez nakładania             DONE
-}
-Nakładanie kliknięć
-Kliknięcia jednoczesne
+Nakładanie kliknięć                     DONE
+
+Znaki dwu-klawiszowe:
+Duże litery (shift)
+Polskie znaki dwu-bajtowe (alt)
+PICP (Pisarz-Internal-Communication-Protocol) Parser
 */
 
 //
 // Functions prototypes
 //
-
 
 void receiveData();
 void servoManualControll();
@@ -73,6 +75,10 @@ void receiveData(){
             clickEventTab_addEvent(event);
     }
 }
+
+//
+// DEBUGGING
+//
 
 void servoManualControll(){
     static uint16_t manualValue = SERVOMID;
