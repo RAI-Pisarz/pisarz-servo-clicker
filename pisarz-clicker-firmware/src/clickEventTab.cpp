@@ -19,12 +19,13 @@ void clickEventTab_addEvent(uint8_t incommingByte){
                 clickEventTabLen++;
             }
         }
-
-        // Normal character
-        ClickEvent event = clickEvent_create(incommingByte, &retCode);
-        if(retCode == 0){
-            clickEventTab[clickEventTabLen] = event;
-            clickEventTabLen++;
+        else{
+            // Normal character
+            ClickEvent event = clickEvent_create(incommingByte, &retCode);
+            if(retCode == 0){
+                clickEventTab[clickEventTabLen] = event;
+                clickEventTabLen++;
+            }
         }
     }
 }
