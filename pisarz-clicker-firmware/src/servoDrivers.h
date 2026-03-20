@@ -22,6 +22,7 @@
 extern Adafruit_PWMServoDriver servoDriver;
 
 void initServoDriver(Adafruit_PWMServoDriver *driver);
+void initServoDrivers();
 
 void servoDown(Key key);
 void servoUp(Key key);

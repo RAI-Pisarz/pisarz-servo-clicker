@@ -12,6 +12,10 @@ void initServoDriver(Adafruit_PWMServoDriver *driver){
         driver->setPWM(i, 0, SERVOMID);
 }
 
+void initServoDrivers(){
+    initServoDriver(&servoDriver);
+}
+
 void servoDown(Key key){
     uint16_t position;
     if(key.dir == LEFT)

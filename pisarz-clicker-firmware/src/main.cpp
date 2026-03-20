@@ -51,7 +51,7 @@ void setup() {
     Serial.begin(115200);
 
     // Servo drivers setup
-    initServoDriver(&servoDriver);
+    initServoDrivers();
 
     delay(10);
 }
