@@ -6,6 +6,21 @@ uint8_t clickEventTabLen = 0;
 void clickEventTab_addEvent(uint8_t incommingByte){
     if(clickEventTabLen < CLICKEVENT_TAB_MAX_LEN){
         uint8_t retCode;
+
+        // Big character
+        if(incommingByte >= 65 && incommingByte <= 90){
+            ClickEvent shiftEvent = clickEvent_create(SHIFT_CODE, &retCode);
+            ClickEvent event = clickEvent_create(incommingByte+32, &retCode);
+
+            if(retCode == 0 && clickEventTabLen+1 < CLICKEVENT_TAB_MAX_LEN){
+                clickEventTab[clickEventTabLen] = shiftEvent;
+                clickEventTabLen++;
+                clickEventTab[clickEventTabLen] = event;
+                clickEventTabLen++;
+            }
+        }
+
+        // Normal character
         ClickEvent event = clickEvent_create(incommingByte, &retCode);
         if(retCode == 0){
             clickEventTab[clickEventTabLen] = event;

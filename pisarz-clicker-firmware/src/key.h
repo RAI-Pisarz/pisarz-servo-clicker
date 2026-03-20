@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <Adafruit_PWMServoDriver.h>
 
+#define SHIFT_CODE 10
+
 typedef enum{
     LEFT,
     RIGHT
