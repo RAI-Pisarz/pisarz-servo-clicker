@@ -23,9 +23,20 @@ void clickEventTab_updateEvents(){
     ClickEvent prevEvent = clickEvent_createEmpty();
     for(uint8_t i=0; i < clickEventTabLen; i++){
         if(clickEventTab[i].state != EMPTY){
-            if(key_checkEqual(clickEventTab[i].key, prevEvent.key))
+            // Double click
+            // if(key_checkEqual(clickEventTab[i].key, prevEvent.key))
+            //     break;
+
+            // Sprawdzenie czy nie istnieje event z tym samym key
+            uint8_t breakingUpdateLoop = 0;
+            for(uint8_t j=0; j<i; j++){
+                if(key_checkEqual(clickEventTab[i].key, clickEventTab[j].key))
+                    breakingUpdateLoop = 1;
+            }
+            if(breakingUpdateLoop)
                 break;
-            clickEvent_update(&(clickEventTab[i]), prevEvent);
+
+            clickEvent_update(&(clickEventTab[i]), &prevEvent);
             prevEvent = clickEventTab[i];
         }
     }
@@ -38,7 +49,7 @@ void clickEventTab_showEventTab(){
         Serial.println(loops);
         if(loops > 5)
             loops = 5;
-        Serial.print("=== === Event Tab === ");
+        Serial.println("=== === Event Tab === ");
         for(int i=0; i < loops; i++){
             Serial.print("Idx: ");
             Serial.print(i);
