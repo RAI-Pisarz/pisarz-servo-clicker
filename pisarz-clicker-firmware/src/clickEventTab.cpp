@@ -27,6 +27,9 @@ void clickEventTab_updateEvents(){
             // if(key_checkEqual(clickEventTab[i].key, prevEvent.key))
             //     break;
 
+            if(i != 0 && prevEvent.state < CLICKING)
+                break;
+
             // Sprawdzenie czy nie istnieje event z tym samym key
             uint8_t breakingUpdateLoop = 0;
             for(uint8_t j=0; j<i; j++){
