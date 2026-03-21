@@ -63,7 +63,7 @@ void setup() {
 void loop() {
     receiveData();
     clickEventTab_updateEvents();
-    clickEventTab_showEventTab();
+    //clickEventTab_showEventTab();
     clickEventTab_removeDoneEvents();
 }
 
@@ -74,6 +74,7 @@ void loop() {
 void receiveData(){
     while(Serial.available() > 0){
         uint8_t incomingByte = Serial.read();
+        //Serial.println(incomingByte);
         clickEventTab_addEvent(incomingByte);
     }
 }

@@ -5,10 +5,55 @@ uint8_t clickEventTabLen = 0;
 
 void clickEventTab_addEvent(uint8_t incommingByte){
     if(clickEventTabLen < CLICKEVENT_TAB_MAX_LEN){
+        static uint8_t polishMode = 0;
         uint8_t retCode;
 
+        // Polish character
+        if(polishMode == 1){
+            ClickEvent altEvent = clickEvent_create(ALT_CODE, &retCode);
+
+            ClickEvent event = clickEvent_createEmpty();
+            switch(incommingByte){
+                case 133:
+                    event = clickEvent_create('a', &retCode);
+                    break;
+                case 135:
+                    event = clickEvent_create('c', &retCode);
+                    break;
+                case 153:
+                    event = clickEvent_create('e', &retCode);
+                    break;
+                case 130:
+                    event = clickEvent_create('l', &retCode);
+                    break;
+                case 132:
+                    event = clickEvent_create('n', &retCode);
+                    break;
+                case 179:
+                    event = clickEvent_create('o', &retCode);
+                    break;
+                case 155:
+                    event = clickEvent_create('s', &retCode);
+                    break;
+                case 186:
+                    event = clickEvent_create('z', &retCode);
+                    break;
+                case 188:
+                    event = clickEvent_create('z', &retCode);
+                    break;
+                default:
+                    retCode = 1;
+            }
+            if(retCode == 0 && clickEventTabLen+1 < CLICKEVENT_TAB_MAX_LEN){
+                clickEventTab[clickEventTabLen] = altEvent;
+                clickEventTabLen++;
+                clickEventTab[clickEventTabLen] = event;
+                clickEventTabLen++;
+            }
+            polishMode = 0;
+        }
         // Big character
-        if(incommingByte >= 65 && incommingByte <= 90){
+        else if(incommingByte >= 65 && incommingByte <= 90){
             ClickEvent shiftEvent = clickEvent_create(SHIFT_CODE, &retCode);
             ClickEvent event = clickEvent_create(incommingByte+32, &retCode);
 
@@ -20,11 +65,16 @@ void clickEventTab_addEvent(uint8_t incommingByte){
             }
         }
         else{
-            // Normal character
-            ClickEvent event = clickEvent_create(incommingByte, &retCode);
-            if(retCode == 0){
-                clickEventTab[clickEventTabLen] = event;
-                clickEventTabLen++;
+            // Polish character
+            if(incommingByte == 196 || incommingByte == 197)
+                polishMode = 1;
+            else{
+                // Normal character
+                ClickEvent event = clickEvent_create(incommingByte, &retCode);
+                if(retCode == 0){
+                    clickEventTab[clickEventTabLen] = event;
+                    clickEventTabLen++;
+                }
             }
         }
     }
