@@ -30,6 +30,7 @@ Polskie znaki dwu-bajtowe (alt)         DONE
                              
 Fast typing                             DONE
 
+Dwa znaki po sobie na jednym serwie     
 PICP Parser
 */
 
