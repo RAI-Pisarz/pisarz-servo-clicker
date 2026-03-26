@@ -6,6 +6,7 @@
 #include "key.h"
 #include "clickEvent.h"
 #include "clickEventTab.h"
+#include "parser.h"
 
 
 //
@@ -74,7 +75,7 @@ void receiveData(){
     while(Serial.available() > 0){
         uint8_t incomingByte = Serial.read();
         //Serial.println(incomingByte);
-        clickEventTab_addEvent(incomingByte);
+        parser_readByte(incomingByte);
     }
 }
 
